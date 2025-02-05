@@ -1,0 +1,120 @@
+2025-02-04 22:17:04,660 - INFO - Total scenes detected: 200
+2025-02-04 22:17:22,867 - INFO - ===============================================================================================
+Layer (type:depth-idx)                        Output Shape              Param #
+===============================================================================================
+MultiModalBBoxPredictor                       [4, 2]                    1
+├─ResNetBackbone: 1-1                         [4, 512, 4, 4]            --
+│    └─Sequential: 2-1                        [4, 64, 32, 32]           --
+│    │    └─Conv2d: 3-1                       [4, 64, 64, 64]           (9,408)
+│    │    └─BatchNorm2d: 3-2                  [4, 64, 64, 64]           (128)
+│    │    └─ReLU: 3-3                         [4, 64, 64, 64]           --
+│    │    └─MaxPool2d: 3-4                    [4, 64, 32, 32]           --
+│    └─Sequential: 2-2                        [4, 64, 32, 32]           --
+│    │    └─BasicBlock: 3-5                   [4, 64, 32, 32]           (73,984)
+│    │    └─BasicBlock: 3-6                   [4, 64, 32, 32]           (73,984)
+│    └─Sequential: 2-3                        [4, 128, 16, 16]          --
+│    │    └─BasicBlock: 3-7                   [4, 128, 16, 16]          (230,144)
+│    │    └─BasicBlock: 3-8                   [4, 128, 16, 16]          (295,424)
+│    └─Sequential: 2-4                        [4, 256, 8, 8]            --
+│    │    └─BasicBlock: 3-9                   [4, 256, 8, 8]            (919,040)
+│    │    └─BasicBlock: 3-10                  [4, 256, 8, 8]            (1,180,672)
+│    └─Sequential: 2-5                        [4, 512, 4, 4]            --
+│    │    └─BasicBlock: 3-11                  [4, 512, 4, 4]            (3,673,088)
+│    │    └─BasicBlock: 3-12                  [4, 512, 4, 4]            (4,720,640)
+├─LayerNorm: 1-2                              [4, 16, 512]              1,024
+├─SimplePointNetPP: 1-3                       [512, 512]                --
+│    └─PointNetConv: 2-6                      [1024, 128]               --
+│    │    └─Sequential: 3-13                  [1024, 128]               17,664
+│    │    └─MaxAggregation: 3-14              [1024, 128]               --
+│    └─PointNetConv: 2-7                      [512, 512]                --
+│    │    └─Sequential: 3-15                  [512, 512]                165,888
+│    │    └─MaxAggregation: 3-16              [512, 512]                --
+├─LayerNorm: 1-4                              [4, 256, 512]             1,024
+├─CrossAttentionFusion: 1-5                   [4, 256, 512]             --
+│    └─Linear: 2-8                            [4, 16, 512]              262,656
+│    └─MultiheadAttention: 2-9                [4, 256, 512]             1,050,624
+├─Sequential: 1-6                             [4, 256]                  --
+│    └─Linear: 2-10                           [4, 512]                  524,800
+│    └─ReLU: 2-11                             [4, 512]                  --
+│    └─Dropout: 2-12                          [4, 512]                  --
+│    └─Linear: 2-13                           [4, 256]                  131,328
+│    └─ReLU: 2-14                             [4, 256]                  --
+├─Sequential: 1-7                             [4, 3]                    --
+│    └─Linear: 2-15                           [4, 128]                  32,896
+│    └─ReLU: 2-16                             [4, 128]                  --
+│    └─Dropout: 2-17                          [4, 128]                  --
+│    └─Linear: 2-18                           [4, 3]                    387
+├─Sequential: 1-8                             [4, 3]                    --
+│    └─Linear: 2-19                           [4, 128]                  32,896
+│    └─ReLU: 2-20                             [4, 128]                  --
+│    └─Dropout: 2-21                          [4, 128]                  --
+│    └─Linear: 2-22                           [4, 3]                    387
+│    └─Softplus: 2-23                         [4, 3]                    --
+├─Sequential: 1-9                             [4, 2]                    --
+│    └─Linear: 2-24                           [4, 128]                  32,896
+│    └─ReLU: 2-25                             [4, 128]                  --
+│    └─Dropout: 2-26                          [4, 128]                  --
+│    └─Linear: 2-27                           [4, 2]                    258
+├─Sequential: 1-10                            [4, 2]                    --
+│    └─Linear: 2-28                           [4, 128]                  32,896
+│    └─ReLU: 2-29                             [4, 128]                  --
+│    └─Dropout: 2-30                          [4, 128]                  --
+│    └─Linear: 2-31                           [4, 2]                    258
+===============================================================================================
+Total params: 13,464,395
+Trainable params: 2,287,883
+Non-trainable params: 11,176,512
+Total mult-adds (G): 2.48
+===============================================================================================
+Input size (MB): 0.81
+Forward/backward pass size (MB): 64.00
+Params size (MB): 49.66
+Estimated Total Size (MB): 114.47
+===============================================================================================
+2025-02-04 22:17:41,255 - INFO - Validation Metrics: {'center_mae': 0.1293943226337433, 'center_mse': 0.029190370813012123, 'dims_mae': 0.062299564480781555, 'dims_mse': 0.0061570280231535435, 'angle_error': 89.4226303100586, 'iou_3d': 0.01513687800616026}
+2025-02-04 22:17:41,256 - INFO - Epoch 01 | Train Loss: 2.2333 | Val Loss: 2.1955
+2025-02-04 22:17:41,399 - INFO - New best model saved at epoch 1 with Val Loss: 2.1955
+2025-02-04 22:17:59,654 - INFO - Validation Metrics: {'center_mae': 0.12842047214508057, 'center_mse': 0.028664641082286835, 'dims_mae': 0.06622344255447388, 'dims_mse': 0.006801318842917681, 'angle_error': 84.76436614990234, 'iou_3d': 0.011256508529186249}
+2025-02-04 22:17:59,658 - INFO - Epoch 02 | Train Loss: 2.1919 | Val Loss: 2.1888
+2025-02-04 22:17:59,802 - INFO - New best model saved at epoch 2 with Val Loss: 2.1888
+2025-02-04 22:18:18,021 - INFO - Validation Metrics: {'center_mae': 0.12997028231620789, 'center_mse': 0.028940880671143532, 'dims_mae': 0.060919150710105896, 'dims_mse': 0.005904093850404024, 'angle_error': 86.42015838623047, 'iou_3d': 0.009924056008458138}
+2025-02-04 22:18:18,022 - INFO - Epoch 03 | Train Loss: 2.1766 | Val Loss: 2.2221
+2025-02-04 22:18:18,022 - INFO - No improvement for 1 epochs.
+2025-02-04 22:18:35,948 - INFO - Validation Metrics: {'center_mae': 0.11737190932035446, 'center_mse': 0.023537861183285713, 'dims_mae': 0.06172585114836693, 'dims_mse': 0.005976049229502678, 'angle_error': 84.53057861328125, 'iou_3d': 0.01754394732415676}
+2025-02-04 22:18:35,949 - INFO - Epoch 04 | Train Loss: 2.1626 | Val Loss: 2.2452
+2025-02-04 22:18:35,949 - INFO - No improvement for 2 epochs.
+2025-02-04 22:18:53,861 - INFO - Validation Metrics: {'center_mae': 0.12152031064033508, 'center_mse': 0.02474381774663925, 'dims_mae': 0.061513859778642654, 'dims_mse': 0.00603691628202796, 'angle_error': 82.50811767578125, 'iou_3d': 0.018188774585723877}
+2025-02-04 22:18:53,862 - INFO - Epoch 05 | Train Loss: 2.1305 | Val Loss: 2.2570
+2025-02-04 22:18:53,862 - INFO - No improvement for 3 epochs.
+2025-02-04 22:19:11,880 - INFO - Validation Metrics: {'center_mae': 0.1318063884973526, 'center_mse': 0.02911384031176567, 'dims_mae': 0.06124085187911987, 'dims_mse': 0.005618844646960497, 'angle_error': 84.23680114746094, 'iou_3d': 0.013962086290121078}
+2025-02-04 22:19:11,880 - INFO - Epoch 06 | Train Loss: 2.1073 | Val Loss: 2.2811
+2025-02-04 22:19:11,881 - INFO - No improvement for 4 epochs.
+2025-02-04 22:19:30,256 - INFO - Validation Metrics: {'center_mae': 0.11110085248947144, 'center_mse': 0.020212218165397644, 'dims_mae': 0.055520590394735336, 'dims_mse': 0.004890742711722851, 'angle_error': 80.9617691040039, 'iou_3d': 0.0216964241117239}
+2025-02-04 22:19:30,257 - INFO - Epoch 07 | Train Loss: 2.0960 | Val Loss: 2.2318
+2025-02-04 22:19:30,257 - INFO - No improvement for 5 epochs.
+2025-02-04 22:19:48,474 - INFO - Validation Metrics: {'center_mae': 0.10817378014326096, 'center_mse': 0.01834862120449543, 'dims_mae': 0.05278448760509491, 'dims_mse': 0.004349465016275644, 'angle_error': 80.63274383544922, 'iou_3d': 0.02104855515062809}
+2025-02-04 22:19:48,477 - INFO - Epoch 08 | Train Loss: 2.0898 | Val Loss: 2.2146
+2025-02-04 22:19:48,477 - INFO - No improvement for 6 epochs.
+2025-02-04 22:20:06,693 - INFO - Validation Metrics: {'center_mae': 0.1049857884645462, 'center_mse': 0.017789341509342194, 'dims_mae': 0.05367226526141167, 'dims_mse': 0.004430362023413181, 'angle_error': 83.9103775024414, 'iou_3d': 0.025929512456059456}
+2025-02-04 22:20:06,694 - INFO - Epoch 09 | Train Loss: 2.0218 | Val Loss: 2.2529
+2025-02-04 22:20:06,694 - INFO - No improvement for 7 epochs.
+2025-02-04 22:20:24,959 - INFO - Validation Metrics: {'center_mae': 0.11039289832115173, 'center_mse': 0.019053706899285316, 'dims_mae': 0.056201666593551636, 'dims_mse': 0.004812390543520451, 'angle_error': 81.15589141845703, 'iou_3d': 0.0208426546305418}
+2025-02-04 22:20:24,959 - INFO - Epoch 10 | Train Loss: 2.0586 | Val Loss: 2.2592
+2025-02-04 22:20:24,959 - INFO - No improvement for 8 epochs.
+2025-02-04 22:20:43,031 - INFO - Validation Metrics: {'center_mae': 0.12112031877040863, 'center_mse': 0.023490723222494125, 'dims_mae': 0.05803404375910759, 'dims_mse': 0.005208361428231001, 'angle_error': 83.44811248779297, 'iou_3d': 0.018791785463690758}
+2025-02-04 22:20:43,031 - INFO - Epoch 11 | Train Loss: 2.0270 | Val Loss: 2.2665
+2025-02-04 22:20:43,031 - INFO - No improvement for 9 epochs.
+2025-02-04 22:21:01,197 - INFO - Validation Metrics: {'center_mae': 0.11012797057628632, 'center_mse': 0.019219236448407173, 'dims_mae': 0.057158976793289185, 'dims_mse': 0.005262283608317375, 'angle_error': 78.23665618896484, 'iou_3d': 0.022872770205140114}
+2025-02-04 22:21:01,197 - INFO - Epoch 12 | Train Loss: 1.9945 | Val Loss: 2.2567
+2025-02-04 22:21:01,197 - INFO - No improvement for 10 epochs.
+2025-02-04 22:21:19,266 - INFO - Validation Metrics: {'center_mae': 0.10793536901473999, 'center_mse': 0.017995405942201614, 'dims_mae': 0.05442068353295326, 'dims_mse': 0.004524352960288525, 'angle_error': 81.99226379394531, 'iou_3d': 0.022786583751440048}
+2025-02-04 22:21:19,267 - INFO - Epoch 13 | Train Loss: 2.0086 | Val Loss: 2.2693
+2025-02-04 22:21:19,267 - INFO - No improvement for 11 epochs.
+2025-02-04 22:21:37,359 - INFO - Validation Metrics: {'center_mae': 0.11145888268947601, 'center_mse': 0.019144946709275246, 'dims_mae': 0.054032083600759506, 'dims_mse': 0.004532807040959597, 'angle_error': 80.27374267578125, 'iou_3d': 0.021046211943030357}
+2025-02-04 22:21:37,360 - INFO - Epoch 14 | Train Loss: 1.9865 | Val Loss: 2.2520
+2025-02-04 22:21:37,360 - INFO - No improvement for 12 epochs.
+2025-02-04 22:21:55,513 - INFO - Validation Metrics: {'center_mae': 0.10869687795639038, 'center_mse': 0.018204694613814354, 'dims_mae': 0.05510826036334038, 'dims_mse': 0.004671694245189428, 'angle_error': 80.15181732177734, 'iou_3d': 0.02349301613867283}
+2025-02-04 22:21:55,514 - INFO - Epoch 15 | Train Loss: 1.9490 | Val Loss: 2.2613
+2025-02-04 22:21:55,514 - INFO - No improvement for 13 epochs.
+2025-02-04 22:21:56,854 - INFO - test Metrics: {'center_mae': 0.11518457531929016, 'center_mse': 0.022056400775909424, 'dims_mae': 0.0571102499961853, 'dims_mse': 0.005079363007098436, 'angle_error': 86.58543395996094, 'iou_3d': 0.024900702759623528}
+2025-02-04 22:21:56,854 - INFO - test Test Loss: 2.4897
